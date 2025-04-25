@@ -26,7 +26,12 @@ jobs:
       - name: Authenticate Docker with Artifact Registry
         run: |
           gcloud auth configure-docker us-central1-docker.pkg.dev
-
+          
+      - name: Debug whoami
+        run: |
+          gcloud auth list
+          gcloud config list
+      
 
       - name: Build and Push Docker Image to Artifact Registry
         run: |
