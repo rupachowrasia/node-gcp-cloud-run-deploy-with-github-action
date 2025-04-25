@@ -6,7 +6,7 @@ name: 'Build and Deploy to Cloud Run'
 on:
   push:
     branches:
-      - '"main"'
+      - "main"
 
 env:
   PROJECT_ID: 'rupa-project-457911' 
