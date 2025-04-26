@@ -1,0 +1,54 @@
+# This workflow build and push a Docker container to Google Artifact Registry
+# and deploy it on Cloud Run when a commit is pushed to the "main" branch.
+
+name: 'Build and Deploy to Cloud Run'
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  PROJECT_ID: 'rupa-project-457911' 
+  REGION: 'us-central1'
+  GAR_NAME: 'github-action-gar'
+  SERVICE: 'my-nodejs-app'
+
+jobs:
+  deploy:
+    runs-on: 'ubuntu-latest'
+
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+      - name: 'Checkout'
+        uses: 'actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332' # actions/checkout@v4
+
+      - name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: '${{ secrets.GCP_Credentials }}'
+
+      - name: 'Docker Auth'
+        run: |-
+          gcloud auth configure-docker "${{ env.REGION }}-docker.pkg.dev"
+
+      - name: 'Build and Push Container'
+        run: |-
+          IMAGE="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_NAME }}/${{ env.SERVICE }}:${{ github.sha }}"
+          docker build --tag "${IMAGE}" .
+          docker push "${IMAGE}"
+          
+      - name: 'Deploy to Cloud Run'
+        uses: 'google-github-actions/deploy-cloudrun@v2'
+        with:
+          service: '${{ env.SERVICE }}'
+          region: '${{ env.REGION }}'
+          image: '${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_NAME }}/${{ env.SERVICE }}:${{ github.sha }}'
+      
+      - name: 'Show output'
+        run: |2-
+
+          echo ${{ steps.deploy.outputs.url }}
