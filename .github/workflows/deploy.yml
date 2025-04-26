@@ -9,10 +9,10 @@ on:
       - main
 
 env:
-  PROJECT_ID: 'rupa-project-457911' 
-  REGION: 'us-central1'
-  GAR_NAME: 'github-action-gar'
-  SERVICE: 'my-nodejs-app'
+  PROJECT_ID: '${{ secrets.PROJECT_ID }}'
+  REGION: '${{ secrets.REGION }}'
+  GAR_NAME: '${{ secrets.GAR_NAME }}'
+  SERVICE: '${{ secrets.SERVICE }}'
 
 jobs:
   deploy:
@@ -24,12 +24,12 @@ jobs:
 
     steps:
       - name: 'Checkout'
-        uses: 'actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332' # actions/checkout@v4
+        uses: 'actions/checkout@v4'
 
       - name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v2'
         with:
-          credentials_json: '${{ secrets.GCP_Credentials }}'
+          credentials_json: '${{ secrets.GCP_SA_KEY }}'
 
       - name: 'Docker Auth'
         run: |-

@@ -22,10 +22,11 @@
 - Create Repo in Artifact Registry
 - Create a service account(with permission Cloud Run Admin, Artifact Registry Administrator, Service Account User), create a key, download the key in local
 - Add GitHub Secrets to your repo:  Repo → Settings → Secrets and variables → Actions → New repository secret(Add all required env variable.) 
-		GCP_PROJECT_ID = your project ID,
+		PROJECT_ID = your project ID,
 		GCP_SA_KEY = contents of key.json (JSON string),
-		CLOUD_RUN_SERVICE = your desired service name (my-node-service),
-		REGION = e.g. us-central1
+		SERVICE = your desired service name (my-node-service),
+		REGION = e.g. us-central1,
+        GAR_NAME = <Artifact Registry Repo name>
 - Create a simple node.js app with Dockerfile
 - Create a .github/workflows/deploy.yml file in root of your node app
 - Every time you push to main branch GitHub Actions will - Builds a Docker image of your app, Pushes it to Google Artifact Registry, Deploys it to Cloud Run (all these steps need to specify in deploy.yml file)
