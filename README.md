@@ -39,10 +39,10 @@
 
 ```bash
 # Clone the repo
-git clone https://github.com/rupachowrasia/node-gcp-cloud-run-deploy-with-github-action.git
+git clone https://github.com/rupachowrasia/gcp-cloud-run-deploy-with-github-action-using-nodejs.git
 
 # Move into the project directory
-cd node-gcp-cloud-run-deploy-with-github-action
+cd gcp-cloud-run-deploy-with-github-action-using-nodejs
 
 # Install dependencies
 npm install
